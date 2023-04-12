@@ -1,0 +1,5 @@
+obj\Debug\net6.0/Milvus.cs \
+obj\Debug\net6.0/MilvusGrpc.cs: C:/Users/lordo/.nuget/packages/grpc.tools/2.52.0/build/native/include/google/protobuf/descriptor.proto\
+ Protos/proto/common.proto\
+ Protos/proto/schema.proto\
+ Protos/proto/milvus.proto
