@@ -1,12 +1,9 @@
-﻿
-using Grpc.Core;
+﻿using Grpc.Core;
 using Grpc.Net.Client;
 using IO.Milvus.Grpc;
 using IO.Milvus.Param;
-using System;
-#if NET461_OR_GREATER
 using System.Net.Http;
-#endif
+using IO.Milvus.Utils;
 
 namespace IO.Milvus.Client
 {
@@ -24,16 +21,20 @@ namespace IO.Milvus.Client
             defaultCallOptions = new CallOptions();
             defaultCallOptions.WithHeaders(new Metadata()
             {
-                {"authorization",connectParam.Authorization }
+                {"authorization",connectParam.Authorization.ToBase64() }
             });
-
-#if NET461_OR_GREATER
-            var httpHandler = new HttpClientHandler();
+            
+            HttpClientHandler httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            channel = GrpcChannel.ForAddress(connectParam.GetAddress(),new GrpcChannelOptions { HttpHandler = httpHandler });
-#else
-            channel = GrpcChannel.ForAddress(connectParam.GetAddress());
-#endif
+            channel = GrpcChannel.ForAddress(connectParam.GetAddress(), new GrpcChannelOptions
+            {
+                HttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                    
+                },
+                
+            });
             
             client = new MilvusService.MilvusServiceClient(channel);
         }

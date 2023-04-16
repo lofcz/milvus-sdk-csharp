@@ -165,6 +165,7 @@ namespace IO.Milvus.Param.Dml
                     new Grpc.KeyValuePair() { Key = "anns_field", Value = VectorFieldName },
                     new Grpc.KeyValuePair() { Key = "topk", Value = TopK.ToString() },
                     new Grpc.KeyValuePair() { Key = "params", Value =  Params },
+                    new Grpc.KeyValuePair() { Key = "nq", Value = 1.ToString() },
                 },
                 DslType = DslType.BoolExprV1,
                 Dsl = Expr,
